@@ -11,7 +11,6 @@ HEIGHT = 1080
 CAR_SIZE_X = 60    
 CAR_SIZE_Y = 60
 BORDER_COLOR = (255, 255, 255, 255)
-STEP_LIMIT = 200_000  # Target steps to match PPO
 
 current_generation = 0
 steps_counter = 0  # Global counter for steps (sample efficiency)
@@ -219,12 +218,18 @@ def run_simulation(genomes, config):
         text_rect.center = (900, 530)
         screen.blit(text, text_rect)
 
-        if steps_counter == 200_000:
-            print("Generation: ", current_generation, ", at steps: ", steps_counter)
-            break
-
         pygame.display.flip()
         clock.tick(60)
+
+    # --- Average Episode Length Logging ---
+    ep_lengths = [car.time for car in cars]
+    avg_ep_len = sum(ep_lengths) / len(ep_lengths)
+
+    # Save for later
+    with open("neat_logs/neat_ep_len_log.csv", "a") as f:
+        f.write(f"{current_generation},{avg_ep_len}\n")
+
+    print(f"🕒 Generation {current_generation} | Avg ep_len: {avg_ep_len:.2f}")
 
 # === Main Training ===
 if __name__ == "__main__":
