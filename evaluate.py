@@ -45,7 +45,7 @@ def evaluate(model_path, map_file, num_episodes=5, render=True, delay=0.03):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate a PPO agent on a car racing map.")
-    parser.add_argument("--model", type=str, default="ppo_car_racer", help="Name/path of the PPO model (no .zip needed)")
+    parser.add_argument("--model", type=str, default="ppo_car_racer_final", help="Name/path of the PPO model (no .zip needed)")
     parser.add_argument("--map_file", type=str, default="map4.png", help="Map file to evaluate on")
     parser.add_argument("--episodes", type=int, default=5, help="Number of episodes to run")
     parser.add_argument("--no_render", action="store_true", help="Disable rendering for faster evaluation")

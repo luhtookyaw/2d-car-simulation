@@ -66,7 +66,7 @@ if __name__ == "__main__":
     )
 
     # Load the saved genome
-    with open("models/neat_winner.pkl", "rb") as f:
+    with open("models/neat_winner_final.pkl", "rb") as f:
         winner = pickle.load(f)
 
     # Rebuild the trained neural network

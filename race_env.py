@@ -31,8 +31,8 @@ class CarRacingRaceEnv(gym.Env):
             self.clock = pygame.time.Clock()
             self.game_map = pygame.image.load(f"maps/{self.map_file}").convert()
 
-        self.car_ppo = Car()
-        self.car_neat = Car()
+        self.car_ppo = Car(color=(205, 28, 232))
+        self.car_neat = Car(color=(14, 237, 189))
         self.car_neat.position[0] += 100  # Slight offset
 
         self.car_ppo.update(self.game_map)

@@ -1,6 +1,7 @@
 # train.py
 import os
 import sys
+import time
 import pygame
 import argparse
 from stable_baselines3 import PPO
@@ -36,12 +37,19 @@ def main(args):
         model = PPO("MlpPolicy", env, verbose=1, tensorboard_log=args.tensorboard_log)
         print(f"Created new model: {args.model_name}")
 
+    # Start timing
+    start_time = time.time()
+
     # Train
     model.learn(
         total_timesteps=args.timesteps, 
         callback=callback,
         tb_log_name=args.tb_log_name
     )
+
+    # End timing
+    elapsed_time = time.time() - start_time
+    print(f"Training completed in {elapsed_time:.2f} seconds.")
 
     # Save
     save_name = f"{args.model_name}_{args.map_file.split('.')[0]}"
@@ -52,7 +60,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train PPO on 2D car racing map.")
-    parser.add_argument("--map_file", type=str, default="map.png", help="Path to the map file (e.g., map2.png)")
+    parser.add_argument("--map_file", type=str, default="map4.png", help="Path to the map file (e.g., map2.png)")
     parser.add_argument("--model_name", type=str, default="ppo_car_racer", help="Base name of the PPO model")
     parser.add_argument("--timesteps", type=int, default=200_000, help="Total timesteps to train")
     parser.add_argument("--render_freq", type=int, default=1, help="Frequency (in steps) to render environment")

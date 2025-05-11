@@ -9,9 +9,13 @@ CAR_SIZE_Y = 60
 BORDER_COLOR = (255, 255, 255, 255)
 
 class Car:
-    def __init__(self):
+    def __init__(self, color=None):
         # Load and scale the car sprite
-        self.sprite = pygame.image.load('car.png').convert_alpha()  # Use convert_alpha for transparency
+        if color:
+            self.sprite = self.load_and_tint_sprite("car.png", color)  # Custom color
+        else:
+            self.sprite = pygame.image.load('car.png').convert_alpha() # Default color
+        
         self.sprite = pygame.transform.scale(self.sprite, (CAR_SIZE_X, CAR_SIZE_Y))
 
         self.rotated_sprite = self.sprite
@@ -27,6 +31,14 @@ class Car:
         self.alive = True
         self.distance = 0
         self.time = 0
+
+    def load_and_tint_sprite(self, image_path, tint_color):
+        image = pygame.image.load(image_path).convert_alpha()
+        tinted_image = image.copy()
+        tint_surface = pygame.Surface(image.get_size(), pygame.SRCALPHA)
+        tint_surface.fill(tint_color)
+        tinted_image.blit(tint_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        return tinted_image
 
     def draw(self, screen):
         screen.blit(self.rotated_sprite, self.rotated_position)
